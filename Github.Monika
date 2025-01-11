@@ -1,0 +1,94 @@
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    for (int i = 0; i < numsSize; i++) {
+        for (int j = i + 1; j < numsSize; j++) {
+            if (nums[j] == target - nums[i]) {
+                int* result = malloc(sizeof(int) * 2);
+                result[0] = i;
+                result[1] = j;
+                *returnSize = 2;
+                return result;
+            }
+        }
+    }
+    // Return an empty array if no solution is found
+    *returnSize = 0;
+    return malloc(sizeof(int) * 0);
+}
+bool isPalindrome(int x) {
+
+     double rev=0, rem, orignal=x;
+    
+    
+        while(x>0)
+        {
+            rem = x % 10;
+            rev = rev * 10 + rem;
+            x/=10;
+        }
+
+        if(rev == orignal)
+            return true;
+        
+         else
+       return false;
+    
+}
+int getValue(char roman){
+    switch(roman){
+        case 'I': return 1;
+        case 'V': return 5;
+        case 'X': return 10;
+        case 'L': return 50;
+        case 'C': return 100;
+        case 'D': return 500;
+        case 'M': return 1000;
+        default : return 0; 
+    }
+}
+int romanToInt(char* s) {
+    int total =0;
+    int prevValue = 0;
+    for(int i = strlen(s)-1; i>=0; i--){
+        int currentvalue = getValue(s[i]);
+
+        if(currentvalue < prevValue){
+            total -= currentvalue;
+        }
+        else{
+            total += currentvalue;
+        }
+        prevValue = currentvalue;
+    }
+    return total;
+}
+char* longestCommonPrefix(char** strs, int strsSize) {
+    char* prefix = (char*)malloc(sizeof(char) * (strlen(strs[0]) + 1));
+    int i = -1;
+
+    do{
+        i++;
+        prefix[i] = strs[0][i];
+        for(int j=0; j < strsSize; j++){
+            if(!strs[j][i] || prefix[i] != strs[j][i]) 
+                prefix[i] = '\0';
+        }
+    } while(prefix[i]);
+    return prefix;
+}
+bool isValid(char* s) {
+    int len =strlen(s);
+    char stack[len];
+    int top = -1;
+    for(int i=0;i<len;i++){
+        if(s[i]=='(' || s[i] == '{' || s[i] == '[' ){
+            stack[++top] = s[i];
+        }else{
+            if(top == -1 ||( s[i]==')'&&stack[top] != '(')||(s[i]=='}'&&stack[top] != '{')||(s[i]==']'&&stack[top]!='[')){
+                return false;
+            } 
+            top--;
+        } 
+    }  
+    return top == -1; 
+}
+
