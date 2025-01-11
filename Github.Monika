@@ -91,4 +91,543 @@ bool isValid(char* s) {
     }  
     return top == -1; 
 }
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2)
+{
+    struct ListNode head;
+    struct ListNode *h = &head;
+    
+    if (l1 == NULL && l2 == NULL)
+        return NULL;
+    
+    while (l1 && l2) {
+        if (l1->val < l2->val) {
+            h->next = l1;
+            l1 = l1->next;
+            h = h->next;
+        } else {
+            h->next = l2;
+            l2 = l2->next;
+            h = h->next;
+        }
+    }
 
+    if (l1) {
+        h->next = l1;
+    }
+    if (l2) {
+        h->next = l2;
+    }
+  
+    return head.next;
+}
+int removeDuplicates(int* nums, int numsSize){
+    int i = 0;
+    for (int j=0;j<numsSize;j++) {
+        nums[i++] = nums[j];            
+        while (j < numsSize - 1 && nums[j] == nums[j + 1]) 
+            j++;
+    }
+    return i;
+}
+int removeElement(int* nums, int numsSize, int val){
+    
+    int appendIndex = 0;
+    bool find = false;
+    int k = 0;
+
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] == val && !find) {
+            appendIndex = i;
+            find = true;
+        }
+        if (nums[i] != val) {
+            nums[appendIndex] = nums[i];
+            appendIndex++;
+            k++;
+        }
+    }
+
+    return k;
+}
+int strStr(char * haystack, char * needle){
+    if (strlen(needle) > strlen(haystack))
+        return -1;
+
+    for (int i = 0; i < strlen(haystack); i++) {
+        if (!strncmp(haystack + i, needle, strlen(needle))) 
+            return i;
+    }
+
+    return -1;
+}
+int searchInsert(int* nums, int numsSize, int target) {
+    int n = numsSize;
+    int l = 0, r = n - 1;
+    while (l <= r) {
+        int m = l + (r - l) / 2;
+        if (nums[m] == target)
+            return m;
+        if (nums[m] < target)
+            l = m + 1;
+        else
+            r = m - 1;
+    }
+    return l;
+}
+int lengthOfLastWord(char* s) {
+    int count=0;
+    while((*s)!='\0'){
+        if(((*s)==' ')&& ((*(s+1))!=' ')&&((*(s+1))!='\0'))
+         count=0;
+        else{
+         if(*s!=' ')
+         count++;
+        }
+        s++;
+    }
+    return count;
+    
+}
+int * plusOne(int *digits, int digitsSize, int *returnSize){
+    for (int i = digitsSize-1; i >= 0; i--) {
+        if (digits[i] != 9) {
+            digits[i] += 1;
+            break;
+        } else {
+            digits[i] = 0;
+        }
+    }
+    if (digits[0] == 0) {
+        // To prepend 1
+        int size = digitsSize + 1;
+        int *result = (int*)malloc(sizeof(int) * size);
+        result[0] = 1;
+
+        // Concat old arr with "[1]"
+        for (int i = 0; i < digitsSize; i++)
+            result[i+1] = digits[i];
+            
+        *returnSize = size;
+        return result;
+    } else {
+        *returnSize = digitsSize;
+        return digits;
+    int mySqrt(int x) {
+    if(x==0||x==1){
+        return x;
+    }
+    for(long long int i=1;i<=x;i++){
+        if(i*i>x){
+            return i-1;
+        }
+
+    }
+return 0;
+}
+char * addBinary(char * a, char * b){
+    int sizeA = strlen(a);
+    int sizeB = strlen(b);
+    int sizeOutput = (sizeA > sizeB ? sizeA : sizeB) + 1;
+    char * output = (char *)malloc(sizeOutput + 1);
+    int sum = 0;
+    
+    output[sizeOutput] = '\0';
+    
+    while(sizeA > 0 || sizeB > 0 || sum > 0) {
+        
+        if(sizeA > 0) {
+            sum += a[--sizeA] - '0';
+        }
+        if(sizeB > 0) {
+            sum += b[--sizeB] - '0';
+        }
+        output[--sizeOutput] = sum % 2 + '0';
+        sum /= 2;
+    }
+    return output + sizeOutput;   
+}
+int climbStairs(int n) {
+    long long int prv1 = 1;
+    long long int prv2 = 1;
+
+    for (int i = 0; i < n; i++) {
+        long long int tmp = prv1;
+        prv1 = prv1 + prv2;
+        prv2 = tmp;
+    }
+
+    return (int)prv2;
+}
+struct ListNode* deleteDuplicates(struct ListNode* head) {
+    struct ListNode* temp=head;
+    while (temp&&temp->next)
+    {
+        if (temp->next->val==temp->val)
+        {
+            temp->next=temp->next->next;
+            continue;
+        }
+        temp=temp->next;
+    }
+    return head;
+}
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
+    if(n == 0)return;
+    int len1 = nums1Size;
+    int end_idx = len1-1;
+    while(n > 0 && m > 0){
+        if(nums2[n-1] >= nums1[m-1]){
+        nums1[end_idx] = nums2[n-1];
+        n--;
+        }else{
+            nums1[end_idx] = nums1[m-1];
+            m--;
+        }
+        end_idx--;
+    }
+    while (n > 0) {
+        nums1[end_idx] = nums2[n-1];
+        n--;
+        end_idx--;
+    }
+}
+int i=0;
+int arr[101]={0};
+void inorder(struct TreeNode* s)
+{
+    if(s!=NULL)
+    {
+        inorder(s->left);
+        arr[i++]=s->val;
+        inorder(s->right);
+    }
+}
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+    inorder(root);
+    int* ans=malloc(i*sizeof(int));
+    for(int j=0;j<i;j++) ans[j]=arr[j];
+    *(returnSize)=i;
+    i=0;
+    return ans;
+}
+bool isSameTree(struct TreeNode* p, struct TreeNode* q) {
+    if (p == NULL && q == NULL) {
+        return true;
+    } else if (p == NULL || q == NULL) {
+        return false;
+    } else {
+        return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    }
+}
+bool parallel_traverse(struct TreeNode* a, struct TreeNode* b)
+{
+    if (a == NULL && b == NULL)
+        return true;
+ 
+    if (a == NULL || b == NULL)
+        return false;
+
+    if (a->val != b->val)
+        return false;
+    
+    return parallel_traverse(a->left, b->right) && parallel_traverse(a->right, b->left);
+}
+
+bool isSymmetric(struct TreeNode* root)
+{
+    if (root == NULL)
+        return true;
+    return parallel_traverse(root->left, root->right);
+}
+int maxDepth(struct TreeNode* root){
+    if(root == NULL)
+        return 0;
+    else {
+        int leftDepth = maxDepth(root->left);
+        int rightDepth = maxDepth(root->right);
+        if(leftDepth > rightDepth)
+            return leftDepth + 1;
+        else
+            return rightDepth + 1;
+    }
+}
+struct TreeNode* ConvToBST(int *nums, int beg, int end){
+    if(end < beg)
+        return NULL ;
+    int mid = (beg + end)/2 ;
+    struct TreeNode* root = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->val = nums[mid];
+    root->left = ConvToBST(nums, beg, mid-1);
+    root->right = ConvToBST(nums, mid+1, end);
+    return root;
+}
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize){
+    if(numsSize <= 0)
+        return NULL;
+    else
+        return ConvToBST(nums, 0, numsSize-1);
+}
+int depth(struct TreeNode *root);
+
+bool isBalanced(struct TreeNode *root) {
+    if (root == NULL)
+        return true;
+        
+    return isBalanced(root->left) && 
+           isBalanced(root->right) &&
+           !(abs(depth(root->left) - depth(root->right)) > 1);
+}
+
+int depth(struct TreeNode *root) {
+    if (root == NULL)
+        return 0;
+        
+    return fmax(depth(root->left), depth(root->right)) + 1;
+}
+int minDepth(struct TreeNode* root){
+   if(root==NULL) return 0;
+   struct TreeNode* arr[100000]; //queue
+    int head=1, tail=-1;
+    arr[0] = root;
+    root->val=1;
+    while (head!=tail){
+		tail++;
+        if(arr[tail]->left ==NULL && arr[tail]->right ==NULL) break; //reach a leaf
+        if(arr[tail]->left !=NULL){  //add to queue and update depth
+            arr[head++] = arr[tail]->left;
+            arr[tail]->left->val = arr[tail]->val+1;
+        }
+        if(arr[tail]->right !=NULL){  //add to queue and update depth
+             arr[head++] = arr[tail]->right;
+            arr[tail]->right->val = arr[tail]->val+1;
+        }
+    }
+    return arr[tail]->val;
+    
+}
+bool hasPathSum(struct TreeNode* root, int targetSum){
+    // If the tree is empty i.e. root is NULL, return false...
+	if (root == NULL) return false;
+    // If there is only a single root node and the value of root node is equal to the targetSum...
+	if (root->val == targetSum && (root->left == NULL && root->right == NULL)) return true;
+    // Call the same function recursively for left and right subtree...
+	return hasPathSum(root->left, targetSum - root->val)|| hasPathSum(root->right, targetSum - root->val);
+}
+int** generate(int numRows, int* returnSize, int** returnColumnSizes) {
+    int** a = (int**)malloc(sizeof(int*) * numRows);
+    *returnSize = numRows;
+    *returnColumnSizes=(int*)malloc(sizeof(int)*numRows); //Allocate for column sizes array
+
+    for (register int i=0; i<numRows; i++) {
+        (*returnColumnSizes)[i] =i+1; // Set the size of each row in column sizes array
+        a[i] = (int*)malloc(sizeof(int)*(i+1));
+
+        a[i][0] = a[i][i] = 1;
+        for (register int j=1; j<=i/2; j++) {
+            a[i][j]=a[i][i-j]= a[i-1][j-1]+a[i-1][j];
+        }
+    }
+    return a;
+}
+int* getRow(int r, int* rS){
+    int*ans = calloc(r + 1, sizeof(int));
+    long temp=1;
+    ans[0]=1;
+    for(int i=1,up=r;i<=r;i++,up--){
+        temp=temp*up/i;
+        ans[i]=temp;
+    }
+    *rS = r+1;
+    return ans;
+}
+bool isPalindrome(char * s) {
+    char* first = s;
+    char* last = s + strlen(s) - 1;
+
+    while (first <= last) {
+        if (isalnum(*first) && isalnum(*last)) {
+            if (tolower(*first++) != tolower(*last--)) return false;
+        }
+        else {
+            if (!isalnum(*first)) ++first;
+            if (!isalnum(*last)) --last;
+        }
+    }
+
+    return true;
+}
+bool hasCycle(struct ListNode *head) {
+    // Initialize two node slow and fast point to the hesd node...
+    struct ListNode* fastptr = head;
+    struct ListNode* slowptr = head;
+    while(fastptr != NULL && fastptr->next != NULL){
+        // Move slow pointer by 1 node and fast at 2 at each step.
+        slowptr = slowptr->next;
+        fastptr = fastptr->next->next;
+        // If both the pointers meet at any point, then the cycle is present and return true...
+        if(slowptr == fastptr)
+            return true;
+    }
+    return false;
+}
+struct ListNode* getIntersectionNode(struct ListNode* headA, struct ListNode* headB) {
+    if (!headA || !headB) return NULL;
+
+    struct ListNode *dummy1 = headA, *dummy2 = headB;
+
+    while (dummy1 != dummy2) {
+        dummy1 = dummy1 ? dummy1->next : headB;
+        dummy2 = dummy2 ? dummy2->next : headA;
+    }
+
+    return dummy1;
+}
+char *convertToTitle(int columnNumber) {
+    int n = columnNumber;
+    // Compute the length for the string
+    int len = (n <= 26) ? 1 : ceil(log(n * 25.0 / 26 + 1) / log(26));    
+    // Allocate memory for the string including the null-terminator
+    char *ans = (char *)malloc((len + 1) * sizeof(char));
+    ans[len] = '\0'; // Null-terminate the string
+    
+    while (n > 0) {
+        n--;
+        div_t x = div(n, 26);
+        ans[--len] = (char)('A' + x.rem);
+        n = x.quot;
+    }
+    return ans;
+}
+int majorityElement(int* nums, int numsSize){
+    int sol = nums[0],
+    cnt = 0;
+    for (int i = 0; i < numsSize; i++) {
+        if (cnt == 0) {
+            sol = nums[i];
+        }
+        if (nums[i] == sol) {
+            cnt++;
+        } else {
+            cnt--;
+        } 
+    }        
+    return sol;
+}
+uint32_t reverseBits(uint32_t n) {
+int ans=0;
+for(int i=31;i>=0;i--,n>>=1){
+    if(n&1){
+        ans+=pow(2,i);
+    }
+}
+return ans; 
+}
+int hammingWeight(uint32_t n) {
+    if (n == 0) {
+        return 0;
+    }
+
+    int count = 0;
+
+    while (n) {
+        if (n & 1) {
+            count++;
+        }
+        
+        n >>= 1;
+    }
+
+    return count;
+}
+int digitSum(int num){
+    int sum = 0;
+    while ( num ){
+        sum += (num % 10)*(num % 10);
+        num /= 10;
+    }
+    return sum;
+}
+
+bool isHappy(int n){
+    int fast = n, slow = n;
+    do{
+        slow = digitSum(slow);
+        fast = digitSum(digitSum(fast));
+    } while (slow != fast);
+    return slow == 1;
+}
+struct ListNode* removeElements(struct ListNode* head, int val){
+    struct ListNode* current = head;
+
+    while (head && head->val == val)
+        head = head->next;
+    
+    while (current && current->next) {
+        if (current->next->val == val)
+            current->next = current->next->next;
+        else
+            current = current->next;
+    }
+
+    return head;
+}
+bool isIsomorphic(char * s, char * t) {
+    int mapS[256] = {0};
+    int mapT[256] = {0};
+    
+    for (int i = 0; s[i] != '\0'; i++) {
+        if ((mapS[(unsigned char)s[i]] && !mapT[(unsigned char)t[i]]) ||
+            (!mapS[(unsigned char)s[i]] && mapT[(unsigned char)t[i]])) {
+            return false;
+        }
+        if (!mapS[(unsigned char)s[i]] && !mapT[(unsigned char)t[i]]) {
+            mapS[(unsigned char)s[i]] = i + 1;
+            mapT[(unsigned char)t[i]] = i + 1;
+        } else {
+            if (mapS[(unsigned char)s[i]] != mapT[(unsigned char)t[i]]) {
+                return false;
+            }
+            mapS[(unsigned char)s[i]] = i + 1;
+            mapT[(unsigned char)t[i]] = i + 1;
+        }
+    }
+    return true;
+}
+struct ListNode* reverseList(struct ListNode* head){
+    // Special case...
+    if(head == NULL || head->next == NULL)  return head;
+    // Initialize prev pointer as the head...
+    struct ListNode* prev = head;
+    // Initialize curr pointer as the next pointer of prev...
+    struct ListNode* curr = prev->next;
+    // Initialize next of head pointer as NULL...
+    head->next = NULL;
+    // Run a loop till curr and prev points to NULL...
+    while(prev != NULL && curr != NULL){
+        // Initialize next pointer as the next pointer of curr...
+        struct ListNode* next = curr->next;
+        // Now assign the prev pointer to curr’s next pointer.
+        curr->next = prev;
+        // Assign curr to prev, next to curr...
+        prev = curr;
+        curr = next;
+    }
+    return prev;    // Return the prev pointer to get the reverse linked list...
+}
+//sorting
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+bool containsDuplicate(int* nums, int numsSize) {
+    // Sort ascending order
+    qsort(nums, numsSize, sizeof(int), compare);
+
+    for (int i = 1; i < numsSize; i++) {
+        if (nums[i] == nums[i - 1]) {
+            return true;
+        }
+    }
+
+    return false;
+}
