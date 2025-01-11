@@ -25,6 +25,22 @@ bool isPalindrome(int x) {
             rev = rev * 10 + rem;
             x/=10;
         }
+struct TreeNode* invertTree(struct TreeNode* root){
+    // Base case...
+    if(root == NULL){
+        return root;
+    }
+    // Call the function recursively for the left subtree...
+    invertTree(root->left);
+    // Call the function recursively for the right subtree...
+    invertTree(root->right);
+    // swapping process...
+    struct TreeNode* curr = root->left;
+    root->left = root->right;
+    root->right = curr;
+    return root;        // Return the root...
+}
+
 
         if(rev == orignal)
             return true;
